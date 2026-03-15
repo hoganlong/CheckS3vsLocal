@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "dgSpecHash": "QWh0Mn0pkKU=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Hogan\\projects\\claudetest\\checks3vslocal\\checks3vslocal.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Hogan\\.nuget\\packages\\awssdk.core\\4.0.3.10\\awssdk.core.4.0.3.10.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\awssdk.s3\\4.0.18\\awssdk.s3.4.0.18.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.configuration\\10.0.3\\microsoft.extensions.configuration.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\10.0.3\\microsoft.extensions.configuration.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\10.0.3\\microsoft.extensions.configuration.fileextensions.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.configuration.json\\10.0.3\\microsoft.extensions.configuration.json.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\10.0.3\\microsoft.extensions.fileproviders.abstractions.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\10.0.3\\microsoft.extensions.fileproviders.physical.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\10.0.3\\microsoft.extensions.filesystemglobbing.10.0.3.nupkg.sha512",
+    "C:\\Users\\Hogan\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.3\\microsoft.extensions.primitives.10.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
