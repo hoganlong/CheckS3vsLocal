@@ -4,8 +4,46 @@ using Microsoft.Extensions.Configuration;
 
 class Program
 {
+  static void PrintUsage()
+  {
+    Console.WriteLine("Usage: dotnet run [-- [<localpath> <s3uri>] [--upload] [--hidelocal]]");
+    Console.WriteLine();
+    Console.WriteLine("Compares files in a local directory (non-recursive, top level only) against");
+    Console.WriteLine("the objects under an S3 prefix. Reports files missing from S3 and files in");
+    Console.WriteLine("S3 but not local. Match is by filename, case-insensitive.");
+    Console.WriteLine();
+    Console.WriteLine("Positional (optional, overrides appsettings.json):");
+    Console.WriteLine("  <localpath>             local directory to read");
+    Console.WriteLine("  <s3uri>                 s3://bucket[/prefix/]");
+    Console.WriteLine();
+    Console.WriteLine("Options:");
+    Console.WriteLine("  --upload                upload files that are local-only to S3");
+    Console.WriteLine("  --hidelocal             suppress the \"in S3 but not local\" report");
+    Console.WriteLine("  -h, --help, -?, /?, ?   show this help and exit");
+    Console.WriteLine();
+    Console.WriteLine("Configuration (appsettings.json):");
+    Console.WriteLine("  S3:LocalPath, S3:S3Uri, S3:Region");
+  }
+
   static async Task Main(string[] args)
   {
+    if (args.Any(a => a is "-h" or "--help" or "-?" or "/?" or "?"))
+    {
+      PrintUsage();
+      return;
+    }
+    foreach (var a in args)
+    {
+      if ((a.StartsWith("-") || a.StartsWith("/")) && a is not ("--upload" or "--hidelocal"))
+      {
+        Console.WriteLine($"Unknown option: {a}");
+        Console.WriteLine();
+        PrintUsage();
+        Environment.ExitCode = 1;
+        return;
+      }
+    }
+
     var configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
       .AddJsonFile("appsettings.json")
@@ -18,11 +56,14 @@ class Program
 
     // Parse args: positional args override localPath and s3Uri; --upload is a flag
     bool upload = false;
+    bool hideMissingLocally = false;
     var positional = new List<string>();
     foreach (var arg in args)
     {
       if (arg == "--upload")
         upload = true;
+      else if (arg == "--hidelocal")
+        hideMissingLocally = true;
       else
         positional.Add(arg);
     }
@@ -125,7 +166,7 @@ class Program
         Console.WriteLine();
       }
 
-      if (missingLocally.Count > 0)
+      if (!hideMissingLocally && missingLocally.Count > 0)
       {
         Console.WriteLine("Files in S3 but not local (informational):");
         foreach (var f in missingLocally)

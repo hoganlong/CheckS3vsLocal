@@ -11,9 +11,19 @@ Useful any time you need to keep a local folder in sync with an S3 bucket — im
 ```
 dotnet run                                        # use appsettings.json defaults, list only
 dotnet run -- --upload                            # use appsettings.json defaults + upload missing
+dotnet run -- --hidelocal                         # suppress "files in S3 but not local" listing
 dotnet run -- <localpath> <s3uri>                 # override paths, list only
 dotnet run -- <localpath> <s3uri> --upload        # override paths + upload missing
 ```
+
+Flags can be combined in any order, e.g. `dotnet run -- <localpath> <s3uri> --upload --hidelocal`.
+
+### Flags
+
+| Flag | Effect |
+|---|---|
+| `--upload` | Upload files that exist locally but are missing from S3 (using `PutObject`) |
+| `--hidelocal` | Hide the "Files in S3 but not local (informational)" section in the report — useful when the S3 prefix legitimately contains many files you don't have locally and you only care about the upload direction |
 
 ### Examples
 
@@ -23,6 +33,9 @@ dotnet run -- C:\images\artwork s3://my-bucket/artwork/
 
 # Upload missing files
 dotnet run -- C:\images\artwork s3://my-bucket/artwork/ --upload
+
+# Upload missing files, hide the noisy "in S3 but not local" list
+dotnet run -- C:\images\artwork s3://my-bucket/artwork/ --upload --hidelocal
 ```
 
 ---
@@ -107,7 +120,7 @@ dotnet run
 1. Lists all files in the local directory (non-recursive)
 2. Lists all S3 objects under the given prefix using paginated `ListObjectsV2`
 3. Compares by filename (case-insensitive)
-4. Reports files missing from S3 and files in S3 but not local
+4. Reports files missing from S3 and files in S3 but not local (the latter can be suppressed with `--hidelocal`)
 5. If `--upload` is passed, uploads each missing file using `PutObject`
 
 Already-present files are never re-uploaded. Safe to run repeatedly.
